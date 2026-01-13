@@ -186,6 +186,10 @@ print(response.choices[0].message.content)
             - Cleaned up unused import and variable warnings.
         - **Internationalization (i18n)**:
             - **Traditional Chinese Support**: Added Traditional Chinese localization support (Thank you @audichuang PR #577).
+        - **Stream Error Handling Improvements**:
+            - **Friendly Error Messages**: Fixed Issue #579 where stream errors resulted in 200 OK without info. Technical errors (Timeout, Decode, Connection) are now converted to user-friendly messages.
+            - **SSE Error Events**: Implemented standard SSE error event propagation, allowing the frontend to gracefully display errors with detailed suggestions (check network, proxy, etc.).
+            - **Multi-language Error Messages (i18n)**: Error messages are now integrated with the i18n system, supporting all 6 languages (zh, en, zh-TW, ja, tr, vi). Non-browser clients automatically fallback to English messages.
         - **Impact**: This update significantly improves multi-turn conversation stability for thinking models like Claude 4.5 Opus and Gemini 3 Pro, especially in scenarios using MCP tools and long sessions.
     *   **v3.3.24 (2026-01-12)**:
         - **UI Interaction Improvements**:
