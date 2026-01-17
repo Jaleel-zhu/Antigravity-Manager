@@ -753,7 +753,7 @@ fn build_contents(
     pending_tool_use_ids: &mut Vec<String>,
     last_user_task_text_normalized: &mut Option<String>,
     previous_was_tool_result: &mut bool,
-    existing_tool_result_ids: &std::collections::HashSet<String>,
+    _existing_tool_result_ids: &std::collections::HashSet<String>,
 ) -> Result<Vec<Value>, String> {
     let mut parts = Vec::new();
     // Track tool results in the current turn to identify missing ones
@@ -1301,6 +1301,7 @@ fn build_google_contents(
 ) -> Result<Value, String> {
     let mut contents = Vec::new();
     let mut last_thought_signature: Option<String> = None;
+    let mut _accumulated_usage: Option<Value> = None;
     // Track pending tool_use IDs for recovery
     let mut pending_tool_use_ids: Vec<String> = Vec::new();
 
@@ -1661,7 +1662,7 @@ mod tests {
             output_config: None,
         };
 
-        let result = transform_claude_request_in(&req, "test-project");
+        let result = transform_claude_request_in(&req, "test-project", false);
         assert!(result.is_ok());
 
         let body = result.unwrap();
@@ -1758,7 +1759,7 @@ mod tests {
             output_config: None,
         };
 
-        let result = transform_claude_request_in(&req, "test-project");
+        let result = transform_claude_request_in(&req, "test-project", false);
         assert!(result.is_ok());
 
         let body = result.unwrap();
@@ -1828,7 +1829,7 @@ mod tests {
             output_config: None,
         };
 
-        let result = transform_claude_request_in(&req, "test-project");
+        let result = transform_claude_request_in(&req, "test-project", false);
         assert!(result.is_ok());
 
         // 验证请求成功转换
@@ -1903,7 +1904,7 @@ mod tests {
             output_config: None,
         };
 
-        let result = transform_claude_request_in(&req, "test-project");
+        let result = transform_claude_request_in(&req, "test-project", false);
         assert!(result.is_ok());
 
         let body = result.unwrap();
@@ -1952,7 +1953,7 @@ mod tests {
             output_config: None,
         };
 
-        let result = transform_claude_request_in(&req, "test-project");
+        let result = transform_claude_request_in(&req, "test-project", false);
         assert!(result.is_ok());
 
         let body = result.unwrap();
@@ -2005,7 +2006,7 @@ mod tests {
             output_config: None,
         };
 
-        let result = transform_claude_request_in(&req, "test-project");
+        let result = transform_claude_request_in(&req, "test-project", false);
         assert!(result.is_ok(), "Transformation failed");
         let body = result.unwrap();
         let contents = body["request"]["contents"].as_array().unwrap();
@@ -2045,7 +2046,7 @@ mod tests {
             output_config: None,
         };
 
-        let result = transform_claude_request_in(&req, "test-project");
+        let result = transform_claude_request_in(&req, "test-project", false);
         assert!(result.is_ok());
         let body = result.unwrap();
         let parts = body["request"]["contents"][0]["parts"].as_array().unwrap();
