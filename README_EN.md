@@ -212,6 +212,13 @@ print(response.choices[0].message.content)
 
 *   **Changelog**:
     *   **v3.3.46 (2026-01-20)**:
+        -   **[Core Fix] Remove [DONE] from Stop Sequences to Prevent Truncation (PR #889)**:
+            -   **Background**: `[DONE]` is a standard SSE (Server-Sent Events) protocol end signal that frequently appears in code and documentation. Including it as a `stopSequence` caused unexpected output truncation when the model explained SSE-related content.
+            -   **Fix Details**: Removed the `"[DONE]"` marker from the Gemini request's `stopSequences` array.
+            -   **Technical Notes**:
+                - Gemini stream termination is controlled by the `finishReason` field, not `stopSequence`
+                - SSE-level `"data: [DONE]"` is handled separately in `mod.rs`
+            -   **Impact**: Resolved the issue where model output was prematurely terminated when generating content containing SSE protocol explanations, code examples, etc. (Issue #888).
         -   **[Deployment] Docker Build Dual-Mode Adaptation (Default/China Mode)**:
             -   **Dual-Mode Architecture**: Introduced `ARG USE_CHINA_MIRROR` build argument. The default mode keeps the original Debian official sources (ideal for overseas/cloud builds); when enabled, it automatically switches to Tsinghua University (TUNA) mirrors (optimized for mainland China).
             -   **Flexibility Boost**: Completely resolved slow builds in overseas environments caused by hardcoded mirrors, while preserving acceleration for users in China.

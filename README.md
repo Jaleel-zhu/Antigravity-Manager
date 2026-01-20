@@ -230,6 +230,13 @@ print(response.choices[0].message.content)
 
 *   **版本演进 (Changelog)**:
     *   **v3.3.46 (2026-01-20)**:
+        -   **[核心修复] 移除 [DONE] 停止序列以防止输出截断 (PR #889)**:
+            -   **问题背景**: `[DONE]` 是 SSE (Server-Sent Events) 协议的标准结束标记,在代码和文档中经常出现。将其作为 `stopSequence` 会导致模型在解释 SSE 相关内容时输出被意外截断。
+            -   **修复内容**: 从 Gemini 请求的 `stopSequences` 数组中移除了 `"[DONE]"` 标记。
+            -   **技术说明**:
+                - Gemini 流的真正结束由 `finishReason` 字段控制,无需依赖 `stopSequence`
+                - SSE 层面的 `"data: [DONE]"` 已在 `mod.rs` 中单独处理
+            -   **影响范围**: 解决了模型在生成包含 SSE 协议说明、代码示例等内容时被提前终止的问题 (Issue #888)。
         -   **[部署优化] Docker 镜像构建双模适配 (Default/China Mode)**:
             -   **双模架构**: 引入 `ARG USE_CHINA_MIRROR` 构建参数。默认模式保持原汁原味的 Debian 官方源（适合海外/云构建）；开启后自动切换为清华大学 (TUNA) 镜像源（适合国内环境）。
             -   **灵活性大幅提升**: 彻底解决了硬编码国内源导致海外构建缓慢的问题，同时保留了国内用户的加速体验。
