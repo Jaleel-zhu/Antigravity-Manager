@@ -325,6 +325,13 @@ response = client.chat.completions.create(
 
 *   **版本演进 (Changelog)**:
     *   **v3.3.50 (2026-01-23)**:
+        -   **[核心功能] 后台任务模型可配置 (Background Model Configuration)**:
+            -   **功能增强**: 允许用户自定义“后台任务”（如标题生成、摘要压缩）使用的模型。不再强制绑定 `gemini-2.5-flash`。
+            -   **UI 更新**: 在“模型映射”页面新增了“后台任务模型”配置项，支持从下拉菜单中选择任意可用模型（如 `gemini-3-flash`）。
+            -   **路由修复**: 修复了后台任务可能绕过用户自定义映射的问题。现在 `internal-background-task` 会严格遵循用户的重定向规则。
+        -   **[重要通告] 上游模型容量预警 (Capacity Warning)**:
+            -   **容量不足**: 接获大量反馈，上游 Google 的 `gemini-2.5-flash` 和 `gemini-2.5-flash-lite` 模型当前正处于极度容量受限状态 (Rate Limited / Capacity Exhausted)。
+            -   **建议操作**: 为保证服务可用性，建议用户暂时在“自定义映射”中将上述两个模型重定向至其他模型（如 `gemini-3-flash` 或 `gemini-3-pro-high`），直到上游恢复。
         -   **[核心修复] Windows 启动参数支持 (PR #973)**:
             -   **问题修复**: 修复了 Windows 平台下启动参数（如内网穿透配置等）无法正确解析生效的问题。感谢 @Mag1cFall 的贡献。
         -   **[核心修复] Claude 签名校验增强 (PR #1009)**:

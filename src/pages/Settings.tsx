@@ -127,7 +127,7 @@ function Settings() {
             // 强制开启后台自动刷新，确保联动逻辑生效
             await saveConfig({ ...formData, auto_refresh: true });
             showToast(t('common.saved'), 'success');
-            
+
             // 如果修改了代理配置，提示用户需要重启
             if (proxyEnabled && proxyUrl) {
                 showToast(t('proxy.config.upstream_proxy.restart_hint', '代理配置已保存，重启应用后生效'), 'info');
@@ -317,6 +317,7 @@ function Settings() {
                                     <option value="tr">Türkçe</option>
                                     <option value="vi">Tiếng Việt</option>
                                     <option value="pt">Português</option>
+                                    <option value="ko">한국어</option>
                                     <option value="ru">Русский</option>
                                 </select>
                             </div>
